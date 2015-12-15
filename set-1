@@ -23,3 +23,38 @@ mat = Table[
 mat[[{1, 12}]] = mat[[{12, 1}]];
 mat[[12, 12]] = 1;
 Inverse[IdentityMatrix[11] - mat[[1 ;; 11, 1 ;; 11]]][[1]] // Total
+
+2. Seven boys and three girls are seated in a row. Find the number of ways of seating arrangements such that the boys get the end positions and no two girls are seated next to each other.
+
+We are solving by enumerating all the permutations, so takes quite some time:
+Sage: 
+lst = matrix([1]*7+[2]*3)
+tot = lst.ncols()
+val = True
+cnt = 0
+a = Permutations(range(tot)).list()
+for i in a:
+    tmp = lst[0,list(i)].list()
+    if not (tmp[0] == 1 and tmp[0] == tmp[tot-1]): # Boys in the end seats
+        val = False
+    if val:
+        for j in xrange(1,tot-1):
+            if tmp[j] == 2 and tmp[j] == tmp[j+1]: # No girls next to each other
+                val = False
+                break
+    if val:
+        cnt += 1
+    val = True
+print cnt
+
+M:
+tst = {1, 1, 1, 1, 1, 1, 1, 2, 2, 2}[[#]] & /@ Permutations[Range[1, 10]]; (* All the arrangements treating numbers distinct *)
+tst = Cases[tst, {1, ___, 1}];                                             (* Boys get the end positions *)
+tst = Cases[tst, Except[{___, 2, 2, ___}]];                                (* Girls not seated next to each other *)
+Length[tst]                                                                (* Number of such arrangements *) 
+
+
+
+
+
+
