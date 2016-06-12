@@ -53,7 +53,14 @@ tst = Cases[tst, {1, ___, 1}];                                             (* Bo
 tst = Cases[tst, Except[{___, 2, 2, ___}]];                                (* Girls not seated next to each other *)
 Length[tst]                                                                (* Number of such arrangements *) 
 
+3. There are 3 identical Math Books, 3 identical Literature Books, 3 identical Science Books and 3 identical Novels.
+The Librarian wants to arrange the books in the shelf, so that no 3 identical books stand in a row. In how many ways can it be done?
 
+M:
+Select[Map[Length, 
+   Map[ Split  , 
+    Permutations[{1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4}]  ], {2}], 
+  Not[MemberQ[#, 3]] &] // Length
 
 
 
